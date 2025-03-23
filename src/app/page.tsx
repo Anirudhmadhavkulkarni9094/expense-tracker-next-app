@@ -55,6 +55,12 @@ export default function Home() {
           >
             Go to Dashboard &rarr;
           </Link>
+          <Link
+            href="/savings"
+            className="mt-4 inline-block bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-xl"
+          >
+            Go to Savings &rarr;
+          </Link>
     </div>
   );
 }
