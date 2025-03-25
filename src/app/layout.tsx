@@ -3,8 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
-import bg from "../assets/bg.png"
+import bg from "../assets/bg.png";
 import Breadcrumbs from "../components/breadcrumbs/Breadcrumbs";
+import { AuthProvider } from "@/components/breadcrumbs/context/AuthContext";
+import ToastProvider from "@/components/Toast/ToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,13 +33,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          <div className="bg-radial from-blue-950 to-black h-screen w-screen -z-10 fixed top-0">
-            <div className="bg-yellow"></div>
-          </div>
+        <div className="bg-radial from-blue-950 to-black h-screen w-screen -z-10 fixed top-0">
+          <div className="bg-yellow"></div>
+        </div>
         <Navbar></Navbar>
         <div className="p-10">
-        <Breadcrumbs />
-        {children}
+          <Breadcrumbs />
+
+          <AuthProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </AuthProvider>
         </div>
       </body>
     </html>
