@@ -10,4 +10,7 @@ const BudgetSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Ensure userId + category is unique
+BudgetSchema.index({ userId: 1, category: 1 }, { unique: true });
+
 export default mongoose.models.Budget || mongoose.model("Budget", BudgetSchema);

@@ -8,6 +8,8 @@ const UserSchema = new mongoose.Schema(
     budgets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Budget" }],
     savingsGoals: [{ type: mongoose.Schema.Types.ObjectId, ref: "SavingsGoal" }],
     expenses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Expense" }],
+    salary : { type: Number },
+    investments : { type: Number }
   },
   { timestamps: true }
 );

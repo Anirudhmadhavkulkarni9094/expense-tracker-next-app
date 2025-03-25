@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 interface SavingGoal {
   id: number;
@@ -104,6 +105,8 @@ export default function SavingsPage() {
   };
 
   return (
+    <ProtectedRoute>
+
     <div className="min-h-screen p-6 bg-gray-900 text-white">
       <h1 className="text-3xl font-bold mb-4">💰 Savings Goals</h1>
 
@@ -116,18 +119,18 @@ export default function SavingsPage() {
           value={goalName}
           onChange={(e) => setGoalName(e.target.value)}
           className="w-full p-2 mt-2 text-white rounded"
-        />
+          />
         <input
           type="number"
           placeholder="Target Amount"
           value={targetAmount}
           onChange={(e) => setTargetAmount(e.target.value)}
           className="w-full p-2 mt-2 text-white rounded"
-        />
+          />
         <button
           onClick={addGoal}
           className="mt-3 bg-green-600 px-4 py-2 rounded hover:bg-green-700"
-        >
+          >
           ➕ Add Goal
         </button>
       </div>
@@ -149,7 +152,7 @@ export default function SavingsPage() {
                 <div
                   className="bg-green-500 h-4 rounded transition-all duration-300"
                   style={{ width: `${Math.min((goal.savedAmount / goal.targetAmount) * 100, 100)}%` }}
-                ></div>
+                  ></div>
               </div>
 
               {/* Custom Amount Input and Update Button */}
@@ -160,11 +163,11 @@ export default function SavingsPage() {
                   value={customAmounts[goal.id] || ""}
                   onChange={(e) => setCustomAmounts({ ...customAmounts, [goal.id]: e.target.value })}
                   className="p-2 text-white rounded"
-                />
+                  />
                 <button
                   onClick={() => updateSavedAmount(goal.id)}
                   className="bg-blue-600 px-3 py-1 rounded hover:bg-blue-700"
-                >
+                  >
                   ➕ Add
                 </button>
                 <input
@@ -173,17 +176,17 @@ export default function SavingsPage() {
                   value={spendAmounts[goal.id] || ""}
                   onChange={(e) => setSpendAmounts({ ...spendAmounts, [goal.id]: e.target.value })}
                   className="p-2 text-white rounded"
-                />
+                  />
                 <button
                   onClick={() => spendFromSavings(goal.id)}
                   className="bg-yellow-600 px-3 py-1 rounded hover:bg-yellow-700"
-                >
+                  >
                   ➖ Spend
                 </button>
                 <button
                   onClick={() => deleteGoal(goal.id)}
                   className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
-                >
+                  >
                   ❌ Delete
                 </button>
               </div>
@@ -192,5 +195,6 @@ export default function SavingsPage() {
         )}
       </div>
     </div>
+          </ProtectedRoute>
   );
 }
