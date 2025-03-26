@@ -5,7 +5,7 @@ import User from "../../../../lib/models/User";
 import jwt from "jsonwebtoken";
 
 
-const SECRET_KEY= "KJRABKDBVKDSJVBAKDBKALJSBACDL"
+const SECRET_KEY= process.env.SECRET_KEY;
 
 export async function POST(req) {
   await dbConnect();
