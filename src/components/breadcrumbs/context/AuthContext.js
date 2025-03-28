@@ -14,9 +14,10 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       setUser({ token }); // Set user state if token exists
+      console.log('User is logged in:', token);
     }
     setLoading(false);
-  }, []);
+  },[]);
 
   const login = async (email, password) => {
     try {
