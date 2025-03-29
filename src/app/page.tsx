@@ -5,6 +5,7 @@ import BudgetCard from "@/components/Card/BudgetCard";
 import Link from "next/link";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import axios from "axios";
+import {toast } from "react-toastify";
 
 interface Category {
   _id?: string;
@@ -15,7 +16,7 @@ interface Category {
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [logged, setLogged] = useState(false);
   // Function to get the token from localStorage
   const getToken = () => {
     return localStorage.getItem("token");
@@ -27,8 +28,8 @@ export default function Home() {
       try {
         const token = getToken();
         if (!token) {
-          console.error("No token found. User may not be authenticated.");
           setLoading(false);
+          setLogged(true);
           return;
         }
 
