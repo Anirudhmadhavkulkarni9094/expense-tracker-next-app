@@ -1,36 +1,27 @@
-'use client'
-import Link from 'next/link'
-import React, { useState } from 'react'
-import { toast } from 'react-toastify';
+'use client';
+import Link from 'next/link';
+import React, { useState } from 'react';
 import { useAuth } from '../breadcrumbs/context/AuthContext';
+import { FiMenu, FiX } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import Button from '../Button/Button';
+import LoginModal from './LoginModal';
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { user, login, logout } = useAuth(); // Use AuthContext
-  console.log('User:', user);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { user, logout } = useAuth();
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeModal = () => setIsOpen(false);
-
-  const handleLogin = async () => {
-    try {
-      await login(email, password); // Call login from AuthContext
-      toast.success('Login successful!');
-      closeModal();
-    } catch (error) {
-      console.error('Login error:', error);
-      alert('Something went wrong');
-    }
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <div className="relative flex justify-between items-center px-4 py-4 bg-gray-800 text-white sticky top-0 z-50">
       <div className="text-xl font-bold">Logo</div>
-      
-      <nav>
-        <ul className="hidden md:flex gap-10">
+
+      {/* Desktop Menu */}
+      <nav className="hidden md:flex gap-10 items-center">
+        <ul className="flex gap-10 items-center">
           <li><Link href="/">Home</Link></li>
           <li><Link href="/about">About</Link></li>
           <li><Link href="/settings">Settings</Link></li>
@@ -44,7 +35,7 @@ function Navbar() {
               </button>
             ) : (
               <button 
-                onClick={toggleMenu} 
+                onClick={() => setIsLoginModalOpen(true)} 
                 className="bg-blue-500 px-4 py-2 rounded-md"
               >
                 Login
@@ -54,51 +45,44 @@ function Navbar() {
         </ul>
       </nav>
 
-      {/* Login Modal */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-          onClick={closeModal}
-        >
-          <div 
-            className="bg-gray-900 text-white p-6 rounded-lg shadow-lg w-80 relative"
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-labelledby="login-title"
-            aria-hidden={!isOpen}
-          >
-            <h2 id="login-title" className="text-lg font-bold mb-4">Login</h2>
-            
-            <input 
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 mb-3 rounded bg-gray-800 text-white border border-gray-600"
-            />
-            <input 
-              type="password" 
-              placeholder="Password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 mb-3 rounded bg-gray-800 text-white border border-gray-600"
-            />
+      {/* Burger Menu Icon */}
+      <button 
+        className="md:hidden text-2xl"
+        onClick={toggleMobileMenu}
+      >
+        {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+      </button>
 
-            <button 
-              className="bg-blue-500 w-full p-2 rounded-md"
-              onClick={handleLogin}
-            >
-              Login
-            </button>
-            <button 
-              onClick={closeModal} 
-              className="absolute top-2 right-2 text-gray-400 hover:text-white"
-            >
-              ✖
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Animated Mobile Menu */}
+      <motion.div
+        initial={{ x: '100%' }}
+        animate={{ x: isMobileMenuOpen ? 0 : '100%' }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="fixed top-0 right-0 h-full w-3/4 bg-gray-900 text-white flex flex-col items-center justify-center space-y-6 text-lg md:hidden z-50 shadow-lg"
+      >
+        <button onClick={closeMobileMenu} className='absolute top-5 right-5 text-2xl'>❌</button>
+        <Link href="/" onClick={closeMobileMenu} className="text-white text-2xl">Home</Link>
+        <Link href="/about" onClick={closeMobileMenu} className="text-white text-2xl">About</Link>
+        <Link href="/settings" onClick={closeMobileMenu} className="text-white text-2xl">Settings</Link>
+        {user ? (
+          <button 
+            onClick={() => { logout(); closeMobileMenu(); }} 
+            className="bg-red-500 px-6 py-3 rounded-md text-xl"
+          >
+            Logout
+          </button>
+        ) : (
+          <Button
+            onClick={() => { setIsLoginModalOpen(true); closeMobileMenu(); }} 
+            color="blue"
+          >
+            Login
+          </Button>
+        )}
+      </motion.div>
+
+      {/* Login Modal */}
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>
   );
 }

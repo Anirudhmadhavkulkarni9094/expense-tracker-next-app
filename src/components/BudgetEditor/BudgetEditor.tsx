@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Button from "../Button/Button";
 
 interface Category {
   _id: string;
@@ -125,9 +126,9 @@ const BudgetEditor: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-gray-900 text-white rounded-lg shadow-lg">
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-gray-900 text-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold text-center mb-6">⚙️ Budget Settings</h2>
-
+      
       <div className="flex gap-2 mb-4">
         <select
           value={selectedCategory}
@@ -147,41 +148,48 @@ const BudgetEditor: React.FC = () => {
           placeholder="Amount (₹)"
           className="w-32 p-2 bg-gray-700 rounded-lg border border-gray-600"
         />
-        <button onClick={addCategory} className="px-4 py-2 bg-blue-600 rounded-lg">
+        <Button onClick={addCategory} color="green" className="p-2" width="140" borderRadius={10}>
           Add
-        </button>
+        </Button>
       </div>
 
       <h3 className="text-xl font-semibold mt-6 mb-3">📊 Budget Categories</h3>
-      <ul>
-        {categories.map((category) => (
-          <li key={category._id} className="flex justify-between bg-gray-800 p-3 rounded-lg mb-2">
-            <span>{category.category}</span>
-            {editingCategory === category._id ? (
-              <input
-                type="number"
-                value={editAmount}
-                onChange={(e) => setEditAmount(Number(e.target.value))}
-                className="w-20 p-1 bg-gray-700 rounded-lg border border-gray-600"
-              />
-            ) : (
-              <span className="text-blue-400 font-bold">₹{category.limit}</span>
-            )}
-            {editingCategory === category._id ? (
-              <button onClick={() => updateCategory(category._id)} className="ml-2 px-3 py-1 bg-green-600 rounded-lg">
-                ✅
-              </button>
-            ) : (
-              <button onClick={() => { setEditingCategory(category._id); setEditAmount(category.limit); }} className="ml-2 px-3 py-1 bg-yellow-500 rounded-lg">
-                ✏️
-              </button>
-            )}
-            <button onClick={() => deleteCategory(category._id)} className="ml-2 px-3 py-1 bg-red-600 rounded-lg">
-              ❌
-            </button>
-          </li>
-        ))}
-      </ul>
+      <table className="w-full text-left border-collapse border border-gray-700">
+        <thead>
+          <tr className="bg-gray-800">
+            <th className="p-3 border border-gray-700 w-1/2">Category</th>
+            <th className="p-3 border border-gray-700 w-1/2">Limit (₹)</th>
+            <th className="p-3 border border-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map((category) => (
+            <tr key={category._id} className="bg-gray-800">
+              <td className="p-3 border border-gray-700">{category.category}</td>
+              <td className="p-3 border border-gray-700">
+                {editingCategory === category._id ? (
+                  <input
+                    type="number"
+                    value={editAmount}
+                    onChange={(e) => setEditAmount(Number(e.target.value))}
+                    className="w-20 p-1 bg-gray-700 rounded-lg border border-gray-600"
+                  />
+                ) : (
+                  <span className="text-blue-400 font-bold">₹{category.limit}</span>
+                )}
+              </td>
+              <td className="p-3 border border-gray-700 flex gap-2">
+                {editingCategory === category._id ? (
+                  <Button onClick={() => updateCategory(category._id)}>✅</Button>
+                ) : (
+                  <Button onClick={() => { setEditingCategory(category._id); setEditAmount(category.limit); }} width="40">✏️</Button>
+                )}
+                <Button onClick={() => deleteCategory(category._id)}>❌</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
