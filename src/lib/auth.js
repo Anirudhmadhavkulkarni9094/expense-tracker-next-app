@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
-const SECRET_KEY= "KJRABKDBVKDSJVBAKDBKALJSBACDL"
+const SECRET_KEY= process.env.SECRET_KEY
 
 
 export function authenticate(req) {
