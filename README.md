@@ -3,8 +3,7 @@
 ### **📊 Budgeting & Expense Tracker**  
 
 A powerful full-stack budgeting application built with **Next.js**, **MongoDB**, and **Node.js** to help users track expenses, set budgets, and manage finances effectively.  
-
-![Budget Tracker Banner](https://via.placeholder.com/1000x400.png?text=Budget+Tracker+App)  
+ 
 
 ---
 
@@ -32,7 +31,7 @@ A powerful full-stack budgeting application built with **Next.js**, **MongoDB**,
 ### **1️⃣ Clone the Repository**  
 ```bash
 git clone https://github.com/Anirudhmadhavkulkarni9094/expense-tracker-next-app.git
-cd budget-tracker
+cd expense-tracker-next-app
 ```
 
 ### **2️⃣ Install Dependencies**  

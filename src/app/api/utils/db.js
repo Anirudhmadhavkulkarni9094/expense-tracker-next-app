@@ -8,7 +8,7 @@
 
 import mongoose from "mongoose";
 
-const MONGODB_URI="mongodb+srv://anirudhkulkarni9094:DyeCNL0sIT0tRz4v@next-app-project.1ka41.mongodb.net/?retryWrites=true&w=majority&appName=Next-app-project";
+const MONGODB_URI= process.env.MONGODB_URI;
 
 
 if (!MONGODB_URI) {

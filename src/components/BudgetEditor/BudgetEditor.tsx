@@ -36,7 +36,7 @@ const BudgetEditor: React.FC = () => {
         const token = getToken();
         if (!token) return;
 
-        const response = await axios.get("http://localhost:3000/api/budget", {
+        const response = await axios.get("/api/budget", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -65,7 +65,7 @@ const BudgetEditor: React.FC = () => {
     if (!token) return;
 
     try {
-      const response = await axios.post("http://localhost:3000/api/budget", newCategory, {
+      const response = await axios.post("/api/budget", newCategory, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -83,7 +83,7 @@ const BudgetEditor: React.FC = () => {
     if (!token) return;
 
     try {
-      await axios.delete(`http://localhost:3000/api/budget?id=${id}`, {
+      await axios.delete(`/api/budget?id=${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -106,7 +106,7 @@ const BudgetEditor: React.FC = () => {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/budget`,
+        `/api/budget`,
         { id, limit: editAmount },
         { headers: { Authorization: `Bearer ${token}` } }
       );

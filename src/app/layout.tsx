@@ -30,6 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <AuthProvider>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -40,11 +41,10 @@ export default function RootLayout({
         <div className="p-10">
           <Breadcrumbs />
 
-          <AuthProvider>
             <ToastProvider>{children}</ToastProvider>
-          </AuthProvider>
         </div>
       </body>
+          </AuthProvider>
     </html>
   );
 }

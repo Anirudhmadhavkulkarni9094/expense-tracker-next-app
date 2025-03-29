@@ -41,7 +41,7 @@ const ExpenseTable = () => {
       }
 
       try {
-        const res = await axios.get("http://localhost:3000/api/expenses", {
+        const res = await axios.get("/api/expenses", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setExpenses(res.data);
@@ -71,7 +71,7 @@ const ExpenseTable = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:3000/api/expenses", newExpense, {
+      const res = await axios.post("/api/expenses", newExpense, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -98,7 +98,7 @@ const ExpenseTable = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:3000/api/expenses?id=${id}`, {
+      await axios.delete(`/api/expenses?id=${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

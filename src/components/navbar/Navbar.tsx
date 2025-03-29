@@ -1,34 +1,24 @@
 'use client'
 import Link from 'next/link'
 import React, { useState } from 'react'
+import { toast } from 'react-toastify';
+import { useAuth } from '../breadcrumbs/context/AuthContext';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { user, login, logout } = useAuth(); // Use AuthContext
+  console.log('User:', user);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeModal = () => setIsOpen(false);
 
   const handleLogin = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        localStorage.setItem('token', data.token); // Store token
-        alert('Login Successful');
-        closeModal();
-      } else {
-        alert(data.message || 'Login failed');
-      }
+      await login(email, password); // Call login from AuthContext
+      toast.success('Login successful!');
+      closeModal();
     } catch (error) {
       console.error('Login error:', error);
       alert('Something went wrong');
@@ -45,14 +35,21 @@ function Navbar() {
           <li><Link href="/about">About</Link></li>
           <li><Link href="/settings">Settings</Link></li>
           <li>
-            <button 
-              onClick={toggleMenu} 
-              className="bg-blue-500 px-4 rounded-md"
-              aria-expanded={isOpen}
-              aria-label="Open login modal"
-            >
-              Login
-            </button>
+            {user ? (
+              <button 
+                onClick={logout} 
+                className="bg-red-500 px-4 py-2 rounded-md"
+              >
+                Logout
+              </button>
+            ) : (
+              <button 
+                onClick={toggleMenu} 
+                className="bg-blue-500 px-4 py-2 rounded-md"
+              >
+                Login
+              </button>
+            )}
           </li>
         </ul>
       </nav>
